@@ -16,11 +16,12 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
-public class AccountServiceImpl implements IAccountService{
-	
+public class AccountServiceImpl implements IAccountService {
+
 	private final AccountRepository accountRepository;
+
 	private final CustomerRepository customerRepository;
-	
+
     public AccountServiceImpl(AccountRepository accountRepository, CustomerRepository customerRepository) {
 		super();
 		this.accountRepository = accountRepository;
@@ -45,6 +46,7 @@ public class AccountServiceImpl implements IAccountService{
 		accountRepository.save(createNewAccount(savedCustomer));
     }
 
+
 	/**
 	 *
 	 * @param savedCustomer - after Customer details are saved in @{link {@link AccountServiceImpl#createAccount(CustomerDto)}} the account details are set in this methods
@@ -62,6 +64,5 @@ public class AccountServiceImpl implements IAccountService{
 		newAccount.setBranchAddress(AccountConstants.ADDRESS);
 		newAccount.setCreatedBy("SYSTEM");
 		return newAccount;
-
 	}
 }
