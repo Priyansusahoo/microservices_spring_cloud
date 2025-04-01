@@ -6,10 +6,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.*;
 
 
 @Entity
 @Table(name = "t_account")
+@Getter @Setter @ToString @AllArgsConstructor @NoArgsConstructor
 public class Account extends BaseEntity{
 	
 	@ManyToOne
@@ -25,61 +27,4 @@ public class Account extends BaseEntity{
 	
 	@Column(name = "branch_address", length = 200, nullable = false)
 	private String branchAddress;
-	
-	public Account() {}
-	
-	
-
-	public Account(Customer customer, Long accountNumber, String accountType, String branchAddress) {
-		super();
-		this.customer = customer;
-		this.accountNumber = accountNumber;
-		this.accountType = accountType;
-		this.branchAddress = branchAddress;
-	}
-
-
-	
-	
-
-	/**
-	 * Getter, Setter and ToString()
-	 */
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public Long getAccountNumber() {
-		return accountNumber;
-	}
-
-	public void setAccountNumber(Long accountNumber) {
-		this.accountNumber = accountNumber;
-	}
-
-	public String getAccountType() {
-		return accountType;
-	}
-
-	public void setAccountType(String accountType) {
-		this.accountType = accountType;
-	}
-
-	public String getBranchAddress() {
-		return branchAddress;
-	}
-
-	public void setBranchAddress(String branchAddress) {
-		this.branchAddress = branchAddress;
-	}
-
-	@Override
-	public String toString() {
-		return "Account [customer=" + customer + ", accountNumber=" + accountNumber + ", accountType=" + accountType
-				+ ", branchAddress=" + branchAddress + "]";
-	}	
 }

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ErrorResponseEXG {
 
 	private String apiPath;
@@ -17,16 +18,4 @@ public class ErrorResponseEXG {
 	private String errorMsg;
 	
 	private LocalDateTime errorTime;
-	
-	
-	
-	
-	
-	public ErrorResponseEXG(String apiPath, HttpStatus errorCode, String errorMsg, LocalDateTime errorTime) {
-		super();
-		this.apiPath = apiPath;
-		this.errorCode = errorCode;
-		this.errorMsg = errorMsg;
-		this.errorTime = errorTime;
-	}
 }

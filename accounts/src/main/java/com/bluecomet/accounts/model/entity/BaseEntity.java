@@ -4,9 +4,14 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Version;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @MappedSuperclass
+@Getter @Setter @ToString
 public abstract class BaseEntity {
 
 	@Column(name = "created_at", updatable = false, nullable = false)
@@ -24,58 +29,9 @@ public abstract class BaseEntity {
 	@Version
 	@Column(name = "version")
 	private Long version;
-	
-	
-	
-	
 
-	/**
-	 * Getter, Setter and ToString()
-	 */
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
+	@PrePersist
+	public void prePresist() {
+		this.createdAt = LocalDateTime.now();
 	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public String getUpdatedBy() {
-		return updatedBy;
-	}
-
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
-	}
-
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
-	}
-
-	@Override
-	public String toString() {
-		return "BaseEntity [createdAt=" + createdAt + ", createdBy=" + createdBy + ", updatedAt=" + updatedAt
-				+ ", updatedBy=" + updatedBy + ", version=" + version + "]";
-	}
-	
 }
