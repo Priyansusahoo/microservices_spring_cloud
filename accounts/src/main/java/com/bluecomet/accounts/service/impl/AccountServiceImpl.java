@@ -2,7 +2,10 @@ package com.bluecomet.accounts.service.impl;
 
 import com.bluecomet.accounts.constants.AccountConstants;
 import com.bluecomet.accounts.exception.CustomerAlreadyExistsException;
+import com.bluecomet.accounts.exception.ResourceNotFoundException;
+import com.bluecomet.accounts.mapper.AccountMapper;
 import com.bluecomet.accounts.mapper.CustomerMapper;
+import com.bluecomet.accounts.model.dto.AccountDto;
 import com.bluecomet.accounts.model.entity.Account;
 import com.bluecomet.accounts.model.entity.Customer;
 import org.springframework.stereotype.Service;
@@ -22,11 +25,20 @@ public class AccountServiceImpl implements IAccountService {
 
 	private final CustomerRepository customerRepository;
 
-    public AccountServiceImpl(AccountRepository accountRepository, CustomerRepository customerRepository) {
+
+
+    public AccountServiceImpl(AccountRepository accountRepository,
+							  CustomerRepository customerRepository)
+	{
 		super();
 		this.accountRepository = accountRepository;
 		this.customerRepository = customerRepository;
 	}
+
+
+
+
+
 
 
 	/**
@@ -34,7 +46,9 @@ public class AccountServiceImpl implements IAccountService {
 	 * main methods to save the Customer and Account details in Database
      */
     @Override
-    public void createAccount(CustomerDto customerDto) throws CustomerAlreadyExistsException {
+    public void createAccount(CustomerDto customerDto)
+							throws CustomerAlreadyExistsException
+	{
 		Customer customer = CustomerMapper.mapToCustomer(customerDto, new Customer());
 
 		Optional<Customer> customerAlreadyExists = customerRepository.findByMobileNumber(customer.getMobileNumber());
@@ -47,12 +61,18 @@ public class AccountServiceImpl implements IAccountService {
     }
 
 
+
+
+
+
+
 	/**
 	 *
 	 * @param savedCustomer - after Customer details are saved in @{link {@link AccountServiceImpl#createAccount(CustomerDto)}} the account details are set in this methods
 	 * @return Account instance which will then be used to save in @{@link AccountServiceImpl#createAccount(CustomerDto)}
 	 */
-	private Account createNewAccount (Customer savedCustomer) {
+	private Account createNewAccount (Customer savedCustomer)
+	{
 		Account newAccount = new Account();
 
 		// AccountNumber creation
@@ -65,4 +85,35 @@ public class AccountServiceImpl implements IAccountService {
 		newAccount.setCreatedBy("SYSTEM");
 		return newAccount;
 	}
+
+
+
+
+
+
+
+
+	/**
+	 * @param mobileNumber - Input Mobile Number
+	 * @return Accounts Details based on a given mobileNumber
+	 */
+	@Override
+	public CustomerDto fetchAccount(String mobileNumber) {
+		Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+				() -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
+		);
+
+		Account account = accountRepository.findByCustomer_CustomerId(customer.getCustomerId()).orElseThrow(
+				() -> new ResourceNotFoundException("Account", "customerId", String.valueOf(customer.getCustomerId()))
+		);
+
+		CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
+		customerDto.setAccountDto(AccountMapper.mapToAccountDto(account, new AccountDto()));
+
+		return customerDto;
+	}
+
+
+
+
 }

@@ -10,6 +10,9 @@ CREATE TABLE IF NOT EXISTS t_customer (
     version bigint NOT NULL
 );
 
+
+
+
 CREATE TABLE IF NOT EXISTS t_account (
     customer_id bigint NOT NULL,
     account_number bigint AUTO_INCREMENT PRIMARY KEY,

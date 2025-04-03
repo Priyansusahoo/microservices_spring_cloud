@@ -13,7 +13,9 @@ public class ResponseEXG {
 	
 	
 	
-	public ResponseEXG(String statusCode, String statusMsg) {
+	public ResponseEXG(String statusCode,
+					   String statusMsg)
+	{
 		super();
 		this.statusCode = statusCode;
 		this.statusMsg = statusMsg;
